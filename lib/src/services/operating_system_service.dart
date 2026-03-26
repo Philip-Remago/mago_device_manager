@@ -15,6 +15,7 @@ class OperatingSystemService {
         name: 'Web Browser',
         version: info.appVersion ?? 'Unknown Version',
         buildNumber: info.appVersion ?? 'Unknown Build Number',
+        userAgent: info.userAgent ?? 'Unknown User Agent',
       );
     } else {
       final deviceInfo = DeviceInfoPlugin();
@@ -77,9 +78,7 @@ class OperatingSystemService {
         manufacturer: info.manufacturer,
         deviceName: info.device,
       );
-    }
-
-    if (Platform.isIOS) {
+    } else if (Platform.isIOS) {
       final info = await _deviceInfo.iosInfo;
       return DeviceIdentity(
         hardwareId: info.identifierForVendor,
@@ -88,9 +87,7 @@ class OperatingSystemService {
         manufacturer: 'Apple',
         deviceName: info.name,
       );
-    }
-
-    if (Platform.isWindows) {
+    } else if (Platform.isWindows) {
       final info = await _deviceInfo.windowsInfo;
       return DeviceIdentity(
         hardwareId: info.deviceId,
@@ -99,9 +96,7 @@ class OperatingSystemService {
         manufacturer: null,
         deviceName: info.computerName,
       );
-    }
-
-    if (Platform.isMacOS) {
+    } else if (Platform.isMacOS) {
       final info = await _deviceInfo.macOsInfo;
       return DeviceIdentity(
         hardwareId: info.systemGUID,
